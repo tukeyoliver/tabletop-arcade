@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Unlocked</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 24px; background:#0b0f17; color:#fff; }
+    .card { max-width: 520px; margin: 0 auto; border: 1px solid #1f2a44; padding: 18px; border-radius: 14px; background:#111a2e; }
+    a, button { display:block; text-align:center; font-size:20px; padding:14px 18px; border-radius:12px; text-decoration:none; border:0; cursor:pointer; background:#2b6cff; color:#fff; margin-top:12px; }
+    .muted { color:#b7c3e0; font-size:14px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>✅ Unlocked!</h1>
+    <p id="status" class="muted">Checking session…</p>
+
+    <a href="/games.html">Go to Games</a>
+    <button onclick="location.href='/games.html'">Start Playing</button>
+
+    <p class="muted" style="margin-top:14px;">When time runs out, this will return to the pay screen automatically.</p>
+  </div>
+
+  <script>
+    const sid = new URLSearchParams(location.search).get("sid");
+    const statusEl = document.getElementById("status");
+
+    if (!sid) {
+      statusEl.textContent = "Missing session. Returning to start…";
+      setTimeout(()=>location.href="/index.html", 1500);
+    }
+
+    async function poll() {
+      const res = await fetch(`/api/session/${sid}`);
+      const data = await res.json();
+
+      if (!data.valid) {
+        statusEl.textContent = "Session not active yet. If you just paid, wait a moment…";
+        setTimeout(poll, 1200);
+        return;
+      }
+
+      // Countdown is approximate in this simple version
+      // (Later we can store expiresAt and show exact time remaining)
+      statusEl.textContent = "Session active ✅ Enjoy!";
+    }
+
+    poll();
+  </script>
+</body>
+</html>
