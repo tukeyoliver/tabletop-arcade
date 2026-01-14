@@ -54,7 +54,7 @@ app.get("/games.html", (req, res) => {
 // Protect success page (only meaningful with sid)
 app.get("/success.html", (req, res) => {
   const sid = req.query.sid;
-  if (!sid) return res.redirect("/");
+if (!sid || !isValidSession(sid)) return res.redirect("/");
   res.sendFile(path.join(__dirname, "public", "success.html"));
 });
 
@@ -101,3 +101,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+app.use(express.static(path.join(__dirname, "public")));
