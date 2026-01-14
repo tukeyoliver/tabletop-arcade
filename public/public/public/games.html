@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Games</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 18px; background:#0b0f17; color:#fff; }
+    .wrap { max-width: 820px; margin: 0 auto; }
+    h1 { text-align:center; margin: 10px 0 6px; }
+    .muted { color:#b7c3e0; font-size: 13px; text-align:center; margin: 0 0 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    a.tile {
+      display:block;
+      border: 1px solid #1f2a44;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      font-size: 18px;
+      text-decoration:none;
+      background:#111a2e;
+      color:#fff;
+    }
+    a.tile:active { transform: scale(0.99); }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; }
+    .btn {
+      border: 1px solid #1f2a44;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background:#111a2e;
+      color:#fff;
+      text-decoration:none;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="btn" href="/index.html">← Back to Pay Screen</a>
+      <span class="muted" style="margin:0;">Tip: Replace links with your preferred games</span>
+      <a class="btn" href="https://www.google.com" target="_blank" rel="noopener">Open Browser</a>
+    </div>
+
+    <h1>🎮 Choose a Game</h1>
+    <p class="muted">These are starter links. You can swap them for any web games you like.</p>
+
+    <div class="grid">
+      <a class="tile" href="https://wordlegame.org/" target="_blank" rel="noopener">Word Game</a>
+      <a class="tile" href="https://playsudoku.com/" target="_blank" rel="noopener">Sudoku</a>
+      <a class="tile" href="https://www.chess.com/play/computer" target="_blank" rel="noopener">Chess vs Computer</a>
+      <a class="tile" href="https://www.miniclip.com/games/en/" target="_blank" rel="noopener">Mini Arcade Library</a>
+    </div>
+  </div>
+</body>
+</html>
