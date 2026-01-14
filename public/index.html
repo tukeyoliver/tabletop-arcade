@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Tabletop Arcade</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 24px; background:#0b0f17; color:#fff; }
+    .card { max-width: 520px; margin: 0 auto; border: 1px solid #1f2a44; padding: 18px; border-radius: 14px; background:#111a2e; }
+    button { font-size: 20px; padding: 14px 18px; width: 100%; border-radius: 12px; border: 0; cursor: pointer; background:#2b6cff; color:#fff; }
+    button:disabled { opacity:.6; cursor:not-allowed; }
+    .muted { color: #b7c3e0; font-size: 14px; }
+    select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2a3a63; font-size: 16px; margin: 10px 0 14px; background:#0b0f17; color:#fff; }
+    h1 { margin: 0 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎮 Tabletop Arcade</h1>
+    <p class="muted">Pay to unlock games. When time ends, it locks again.</p>
+
+    <label class="muted">Choose time:</label>
+    <select id="minutes">
+      <option value="10" selected>10 minutes ($2)</option>
+      <option value="20">20 minutes ($4)</option>
+      <option value="30">30 minutes ($6)</option>
+    </select>
+
+    <button id="payBtn">Pay & Start</button>
+    <p class="muted" style="margin-top:12px;">Tip: Use iPad Guided Access / Android Screen Pinning for kiosk mode.</p>
+  </div>
+
+  <script>
+    const payBtn = document.getElementById("payBtn");
+
+    payBtn.addEventListener("click", async () => {
+      try {
+        payBtn.disabled = true;
+        payBtn.textContent = "Loading payment...";
+
+        const minutes = Number(document.getElementById("minutes").value);
+
+        const res = await fetch("/api/create-checkout", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ minutes })
+        });
+
+        if (!res.ok) throw new Error("Checkout failed");
+
+        const data = await res.json();
+        window.location.href = data.url;
+      } catch (e) {
+        payBtn.disabled = false;
+        payBtn.textContent = "Pay & Start";
+        alert("Payment setup failed. Try again.");
+      }
+    });
+  </script>
+</body>
+</html>
