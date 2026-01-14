@@ -37,9 +37,27 @@ function isValidSession(sessionId) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
-
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+// Force homepage
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Protect games page (must have valid session)
+app.get("/games.html", (req, res) => {
+  const sid = req.query.sid;
+  if (!sid || !isValidSession(sid)) {
+    return res.redirect("/");
+  }
+  res.sendFile(path.join(__dirname, "public", "games.html"));
+});
+
+// Protect success page (only meaningful with sid)
+app.get("/success.html", (req, res) => {
+  const sid = req.query.sid;
+  if (!sid) return res.redirect("/");
+  res.sendFile(path.join(__dirname, "public", "success.html"));
 });
 
 // Create checkout session
